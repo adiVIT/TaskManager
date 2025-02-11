@@ -1,0 +1,24 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Build artifacts
+dist/
+out/
+
+# IDE/Editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Misc
+coverage/
+.tmp/

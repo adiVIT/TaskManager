@@ -1,0 +1,41 @@
+<!-- views/update.ejs -->
+<form id="updateTaskForm">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="<%= task.title %>" required>
+  
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required><%= task.description %></textarea>
+  
+    <label for="completed">Completed:</label>
+    <input type="checkbox" id="completed" name="completed" <%= task.completed ? 'checked' : '' %>>
+  
+    <button type="button" onclick="submitUpdate('<%= task._id %>')">Save</button>
+  </form>
+  
+  <script>
+    function submitUpdate(taskId) {
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const completed = document.getElementById('completed').checked;
+  
+      const data = { title, description, completed };
+  
+      fetch(`/tasks/update/${taskId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(updatedTask => {
+        console.log('Task updated successfully:', updatedTask);
+        // Handle success (e.g., redirect or update UI)
+      })
+      .catch(error => {
+        console.error('Error updating task:', error);
+        // Handle error (e.g., show an error message)
+      });
+    }
+  </script>
+  

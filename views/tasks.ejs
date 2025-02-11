@@ -1,0 +1,61 @@
+<!-- views/tasks.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Task Manager</title>
+</head>
+<body>
+  <h1>Task Manager</h1>
+
+  <ul>
+    <% tasks.forEach(task => { %>
+      <li>
+        <strong>Title:</strong> <%= task.title %><br>
+        <strong>Description:</strong> <%= task.description %><br>
+        <strong>Status:</strong> <%= task.completed ? 'Completed' : 'Pending' %><br>
+
+        <!-- Update Button -->
+        <button onclick="showUpdateForm('<%= task._id %>')">Update</button>
+        <button onclick="deleteTask('<%= task._id %>')">Delete</button>
+        
+      </li>
+    <% }); %>
+  </ul>
+
+  <a href="/tasks/create">Create New Task</a>
+
+  <script>
+    function showUpdateForm(taskId) {
+      console.log('showUpdateForm called with taskId:', taskId);
+      fetch(`/tasks/update/${taskId}`)
+      .then(response => response.text())
+      .then(updateForm => {
+        document.getElementById('updateFormContainer').innerHTML = updateForm;
+      })
+      .catch(error => {
+        console.error('Error fetching update form:', error);
+        // Handle error (e.g., show an error message)
+      });
+    }
+
+    function deleteTask(taskId) {
+      console.log('deleteTask called with taskId:', taskId);
+      fetch(`/tasks/delete/${taskId}`)
+      .then(response => response.text())
+      .then(deleteForm => {
+        document.getElementById('updateFormContainer').innerHTML = deleteForm;
+      })
+      .catch(error => {
+        console.error('Error fetching delete form:', error);
+        // Handle error (e.g., show an error message)
+      });
+    }
+  </script>
+
+  <!-- Container for Update Form or Delete Form -->
+  <div id="updateFormContainer"></div>
+</body>
+</html>
